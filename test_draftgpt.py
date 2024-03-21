@@ -2,7 +2,15 @@ import requests
 import json
 import os
 
-def main(openai_api_key = "sk-na..."):
+# test_draftgpt.py
+
+def capital_case(x):
+    return x.capitalize()
+
+def test_capital_case():
+    assert capital_case('semaphore') == 'Semaphore'
+
+def draft_gpt(openai_api_key = "sk-na..."):
    # put yout api key here
   if openai_api_key is None:
       raise ValueError("OpenAI API key is not set in environment variables.")
@@ -37,3 +45,6 @@ def main(openai_api_key = "sk-na..."):
       print(response.json()['choices'][0]['message']['content'])
   else:
       print("Error:", response.status_code, response.text)
+
+def test_draft_gpt():
+    assert capital_case('semaphore') == 'Semaphore'

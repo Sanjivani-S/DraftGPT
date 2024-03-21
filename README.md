@@ -3,9 +3,10 @@ GPT that drafts a Root Cause Analysis (RCA) document with input from unstructure
 
 What we would like is a more formalized output with more detailed input and correct analysis, similar to the following Q&A with ChatGPT
 
+## Example use case
 User/Owner: "My EC2 instance in AWS is taking a very long time to respond on HTTP requests. What is the likely cause, is it the CPU, the storage, the RAM, or the network that is the root cause of the problem?"
 
-## Example use case
+## Example GPT response 
 When diagnosing slow response times on an EC2 instance in AWS, there could be several potential causes, and it's essential to troubleshoot systematically to identify the root cause. Here's a breakdown of how each component could contribute to the issue:
 
 CPU: If the CPU utilization is consistently high (close to 100%), it could indicate that the server is under heavy load, causing delays in processing HTTP requests. This might be due to resource-intensive applications running on the server or an insufficiently sized instance for the workload.

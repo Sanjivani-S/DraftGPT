@@ -7,8 +7,10 @@ import os
 def capital_case(x):
     return x.capitalize()
 
+
 def test_capital_case():
     assert capital_case('semaphore') == 'Semaphore'
+
 
 def draft_gpt(openai_api_key = "sk-na..."):
    # put yout api key here

@@ -14,8 +14,8 @@ def test_capital_case():
     assert capital_case("semaphore") == "Semaphore"
 
 
-def draft_gpt(openai_api_key="sk-na..."):
-    # put yout api key here
+def draft_gpt(openai_api_key=os.environ['OPENAI_API_KEY']):
+
     if openai_api_key is None:
         raise ValueError("OpenAI API key is not set in environment variables.")
 

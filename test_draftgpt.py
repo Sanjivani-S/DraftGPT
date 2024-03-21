@@ -14,8 +14,8 @@ def test_capital_case():
     assert capital_case("semaphore") == "Semaphore"
 
 
-def draft_gpt(openai_api_key="sk-na..."):
-    # put yout api key here
+def draft_gpt(openai_api_key="sk-na..."): # set api key here
+
     if openai_api_key is None:
         raise ValueError("OpenAI API key is not set in environment variables.")
 
@@ -30,7 +30,8 @@ def draft_gpt(openai_api_key="sk-na..."):
         "model": "gpt-3.5-turbo",
         "messages": [
             {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": "Hello!"},
+            {"role": "user", "content": "Hello! My EC2 instance in AWS is taking a very long time to respond to HTTP requests. Sometimes it doesn't respond at all. I recently changed a security group with new rules for ingress. When I trace the route to the host on the internet I can only reach it from certain IP ranges and not all of them. What is the likely cause, is it the CPU, the storage, the RAM, or the network that is the root cause of the problem?"},
+,
         ],
     }
 

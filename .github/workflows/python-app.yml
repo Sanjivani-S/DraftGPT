@@ -40,4 +40,4 @@ jobs:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
         pytest
-        python  -c 'import test_draftgpt; test_draftgpt.test_draftgpt()'
+        python  -c 'import test_draftgpt; test_draftgpt.test_draft_gpt()'

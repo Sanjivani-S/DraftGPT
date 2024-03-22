@@ -1,20 +1,9 @@
-import json
 import os
 
 import requests
 
-# test_draftgpt.py
 
-
-def capital_case(x):
-    return x.capitalize()
-
-
-def test_capital_case():
-    assert capital_case("semaphore") == "Semaphore"
-
-
-def draft_gpt(openai_api_key=os.environ['OPENAI_API_KEY']):
+def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"]):
 
     if openai_api_key is None:
         raise ValueError("OpenAI API key is not set in environment variables.")
@@ -30,7 +19,10 @@ def draft_gpt(openai_api_key=os.environ['OPENAI_API_KEY']):
         "model": "gpt-3.5-turbo",
         "messages": [
             {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": "Hello! My EC2 instance in AWS is taking a very long time to respond to HTTP requests. Sometimes it doesn't respond at all. I recently changed a security group with new rules for ingress. When I trace the route to the host on the internet I can only reach it from certain IP ranges and not all of them. What is the likely cause, is it the CPU, the storage, the RAM, or the network that is the root cause of the problem?"},
+            {
+                "role": "user",
+                "content": "Hello! My EC2 instance in AWS is taking a very long time to respond to HTTP requests. Sometimes it doesn't respond at all. I recently changed a security group with new rules for ingress. When I trace the route to the host on the internet I can only reach it from certain IP ranges and not all of them. What is the likely cause, is it the CPU, the storage, the RAM, or the network that is the root cause of the problem?",
+            },
         ],
     }
 
@@ -40,10 +32,12 @@ def draft_gpt(openai_api_key=os.environ['OPENAI_API_KEY']):
     if response.status_code == 200:
         print("Response from OpenAI:", response.json())
         print("\n")
-        print(response.json()["choices"][0]["message"]["content"])
+        output = response.json()["choices"][0]["message"]["content"]
+        print(output)
+        return output
     else:
         print("Error:", response.status_code, response.text)
 
 
 def test_draft_gpt():
-    assert capital_case("semaphore") == "Semaphore"
+    assert "is related to the network configuration" in draft_gpt()

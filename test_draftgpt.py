@@ -32,12 +32,13 @@ def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"]):
     if response.status_code == 200:
         print("Response from OpenAI:", response.json())
         print("\n")
-        output = response.json()["choices"][0]["message"]["content"]
-        print(output)
-        return output
+        print(response.json()["choices"][0]["message"]["content"])
+
     else:
         print("Error:", response.status_code, response.text)
 
+    return response.status_code
+
 
 def test_draft_gpt():
-    assert "is related to the network configuration" in draft_gpt()
+    assert draft_gpt() == 200

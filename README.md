@@ -3,6 +3,9 @@ GPT that drafts a Root Cause Analysis (RCA) document with input from unstructure
 
 What we would like is a more formalized output with more detailed input and correct analysis, similar to the following Q&A with ChatGPT
 
+## Example usage
+``python3 test_draftgpt.py``
+
 ## Example use case
 User/Owner: "My EC2 instance in AWS is taking a very long time to respond on HTTP requests. What is the likely cause, is it the CPU, the storage, the RAM, or the network that is the root cause of the problem?"
 

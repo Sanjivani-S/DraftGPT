@@ -8,6 +8,9 @@ def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"]):
     if openai_api_key is None:
         raise ValueError("OpenAI API key is not set in environment variables.")
 
+    with open("incident_description.txt", "r") as file:
+        incident_desc = file.read().replace("\n", "")
+
     url = "https://api.openai.com/v1/chat/completions"
 
     headers = {
@@ -21,7 +24,7 @@ def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"]):
             {"role": "system", "content": "You are a helpful assistant."},
             {
                 "role": "user",
-                "content": "Hello! My EC2 instance in AWS is taking a very long time to respond to HTTP requests. Sometimes it doesn't respond at all. I recently changed a security group with new rules for ingress. When I trace the route to the host on the internet I can only reach it from certain IP ranges and not all of them. What is the likely cause, is it the CPU, the storage, the RAM, or the network that is the root cause of the problem?",
+                "content": incident_desc,
             },
         ],
     }
@@ -42,3 +45,7 @@ def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"]):
 
 def test_draft_gpt():
     assert draft_gpt() == 200
+
+
+if __name__ == "__main__":
+    draft_gpt()

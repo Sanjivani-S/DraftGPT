@@ -3,6 +3,13 @@ GPT that drafts a Root Cause Analysis (RCA) document with input from unstructure
 
 What we would like is a more formalized output with more detailed input and correct analysis, similar to the following Q&A with ChatGPT
 
+## Online usage
+
+Enter a working API key in the input field and start the workflow. 
+
+![Screenshot 2024-03-31 at 18 54 17](https://github.com/Sanjivani-S/DraftGPT/assets/51189/b0a43d85-9077-4674-8146-e6ab095f75ca)
+
+
 ## Example usage
 ``python3 test_draftgpt.py``
 

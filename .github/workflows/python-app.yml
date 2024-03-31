@@ -50,5 +50,5 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: incident_report.txt
-        path: incident_description.txt
+        name: report.txt
+        path: report.txt

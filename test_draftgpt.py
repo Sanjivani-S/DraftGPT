@@ -37,6 +37,10 @@ def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"]):
         print("\n")
         print(response.json()["choices"][0]["message"]["content"])
 
+        file = open("report.txt", 'w')
+        file.write(response.json()["choices"][0]["message"]["content"])
+        file.close()
+
     else:
         print("Error:", response.status_code, response.text)
 

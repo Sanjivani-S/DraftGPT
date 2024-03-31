@@ -6,7 +6,7 @@ name: Python application
 on:
   workflow_dispatch:
     inputs:
-      webgl-required:
+      chatgpt-api-key:
         description: 'chatgpt-api-key'     
         required: false
         default: 'CHANGEME'

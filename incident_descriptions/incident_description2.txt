@@ -1,0 +1,8 @@
+I am trying to run EC2 instance on AWS but after creating when I do ssh from gibash or any thing else it says time out.
+First I think it was some error through my end but it wasn't disabled the firewall etc.
+But when I open the public ip address after giving the permission to 80 port from all ip address the webpage open and says it took too much time to respond.
+So I clicked on my created instance and pressed Connect from the header and tried to connect direct from AWS (to open console) but the error is still displaying.
+I tried with different Operating Systems:
+Amazon Linux
+Ubuntu
+Centos 7

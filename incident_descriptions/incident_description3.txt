@@ -1,0 +1,17 @@
+just created an ec2 instance and can ssh into it and everything but when i go to either its elastic ip or its public DNS url I cannot it returns a page saying Oops! Google Chrome could not connect to 23.23.205.241 I can also ping its public DNS but when i visit that url i also get a Oops! Google Chrome could not connect to ec2-23-23-205-241.compute-1.amazonaws.com message
+
+I can successfully ping the ip address and get a response and i have the following security groups set up: 22 tcp 0.0.0.0/0
+25 tcp 0.0.0.0/0
+80 tcp 0.0.0.0/0
+110 tcp 0.0.0.0/0
+143 tcp 0.0.0.0/0
+443 tcp 0.0.0.0/0
+3306 tcp 0.0.0.0/0
+8080 tcp 0.0.0.0/0
+0-65535 udp 0.0.0.0/0
+53 udp 0.0.0.0/0
+-1 icmp 0.0.0.0/0
+
+This instance is of type: Amazon Linux AMI 2012.09 64 bit.
+
+I have just installed tomcat7 on it as well but i was unable to see my webpage before that installation.

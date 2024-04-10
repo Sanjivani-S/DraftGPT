@@ -1,8 +1,8 @@
 import os
-
 import requests
 
 
+print (os.environ["OPENAI_API_KEY"])
 def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"]):
 
     if openai_api_key is None:
@@ -28,6 +28,8 @@ def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"]):
             },
         ],
     }
+    
+    print(url, "\n", headers, "\n", data, "\n")
 
     response = requests.post(url, headers=headers, json=data)
 

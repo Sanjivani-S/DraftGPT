@@ -6,8 +6,6 @@ openai_api_key=os.environ["OPENAI_API_KEY"]
 
 def draft_gpt(user_input):
 
-    print("\n api key is ",os.environ["OPENAI_API_KEY"])
-
     if openai_api_key is None:
         raise ValueError("OpenAI API key is not set in environment variables.")
 
@@ -32,7 +30,6 @@ def draft_gpt(user_input):
         ],
     }
   
-    print(url,"\n",headers,"\n",data,"\n")
     response = requests.post(url, headers=headers, json=data)
 
     # Check if the request was successful

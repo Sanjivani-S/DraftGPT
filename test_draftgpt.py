@@ -3,7 +3,7 @@ import os
 import requests
 
 
-def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"]):
+def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model=os.environ["GPT_MODEL"]):
 
     if openai_api_key is None:
         raise ValueError("OpenAI API key is not set in environment variables.")
@@ -19,7 +19,7 @@ def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"]):
     }
 
     data = {
-        "model": "gpt-3.5-turbo",
+        "model": gpt_model,
         "messages": [
             {"role": "system", "content": "You are a helpful assistant."},
             {

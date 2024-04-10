@@ -5,9 +5,9 @@ What we would like is a more formalized output with more detailed input and corr
 
 ## Online usage
 
-Enter a working API key in the input field and start the workflow. 
+Enter a working API key in the input field and start the workflow, and change chatgpt-model in the dropdown menu.
 
-![Screenshot 2024-03-31 at 18 54 17](https://github.com/Sanjivani-S/DraftGPT/assets/51189/b0a43d85-9077-4674-8146-e6ab095f75ca)
+![image](https://private-user-images.githubusercontent.com/33799767/321284424-f5e79f19-c456-4e55-979c-32c53bd53d83.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTI3NjA4MzMsIm5iZiI6MTcxMjc2MDUzMywicGF0aCI6Ii8zMzc5OTc2Ny8zMjEyODQ0MjQtZjVlNzlmMTktYzQ1Ni00ZTU1LTk3OWMtMzJjNTNiZDUzZDgzLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA0MTAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwNDEwVDE0NDg1M1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTFlMmRkNTFkMGE1YmMzMWU4NjY3YmZiYmQ1YTNjNGJkZTlhYmJjYmEwYzExMmIwNjEzNDNiZWE1Mzg0NjA0NzMmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.cTq3nhdLnppc7_QGlYJxa_pTRoMNsk30Pl9H8XNtdQA)
 
 
 ## Example usage

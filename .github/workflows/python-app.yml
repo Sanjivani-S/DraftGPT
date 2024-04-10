@@ -4,7 +4,12 @@
 name: Python application
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      chatgpt-api-key:
+        description: 'chatgpt-api-key'     
+        required: false
+        default: 'CHANGEME'
   push:
     branches: [ "main" ]
   pull_request:
@@ -38,7 +43,12 @@ jobs:
     - name: Test with pytest
 
       env:
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        OPENAI_API_KEY: ${{github.event.inputs.chatgpt-api-key}} # ${{ secrets.OPENAI_API_KEY }}
       run: |
         pytest
         python  -c 'import test_draftgpt; test_draftgpt.draft_gpt()'
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: report.txt
+        path: report.txt

@@ -8,7 +8,7 @@ def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"]):
     if openai_api_key is None:
         raise ValueError("OpenAI API key is not set in environment variables.")
 
-    with open("incident_description.txt", "r") as file:
+    with open("incident_descriptions/incident_description.txt", "r") as file:
         incident_desc = file.read().replace("\n", "")
 
     url = "https://api.openai.com/v1/chat/completions"
@@ -38,6 +38,10 @@ def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"]):
         print("Response from OpenAI:", response.json())
         print("\n")
         print(response.json()["choices"][0]["message"]["content"])
+
+        file = open("report.txt", 'w')
+        file.write(response.json()["choices"][0]["message"]["content"])
+        file.close()
 
     else:
         print("Error:", response.status_code, response.text)

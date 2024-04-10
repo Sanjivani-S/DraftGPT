@@ -1,9 +1,12 @@
 import os
 import requests
+import gradio
 
+openai_api_key=os.environ["OPENAI_API_KEY"]
 
-print (os.environ["OPENAI_API_KEY"])
-def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"]):
+def draft_gpt(user_input):
+
+    print("\n api key is ",os.environ["OPENAI_API_KEY"])
 
     if openai_api_key is None:
         raise ValueError("OpenAI API key is not set in environment variables.")
@@ -24,29 +27,27 @@ def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"]):
             {"role": "system", "content": "You are a helpful assistant."},
             {
                 "role": "user",
-                "content": incident_desc,
+                "content": user_input ##incident_desc,
             },
         ],
     }
-    
-    print(url, "\n", headers, "\n", data, "\n")
-
+  
+    print(url,"\n",headers,"\n",data,"\n")
     response = requests.post(url, headers=headers, json=data)
 
     # Check if the request was successful
     if response.status_code == 200:
-        print("Response from OpenAI:", response.json())
-        print("\n")
-        print(response.json()["choices"][0]["message"]["content"])
-
+        ChatGPT_reply = response.json()["choices"][0]["message"]["content"]
+        print(ChatGPT_reply) 
+        
         file = open("report.txt", 'w')
-        file.write(response.json()["choices"][0]["message"]["content"])
+        file.write(ChatGPT_reply)
         file.close()
+        return ChatGPT_reply
 
     else:
         print("Error:", response.status_code, response.text)
-
-    return response.status_code
+        return response.status_code
 
 
 def test_draft_gpt():
@@ -54,4 +55,7 @@ def test_draft_gpt():
 
 
 if __name__ == "__main__":
-    draft_gpt()
+    demo = gradio.Interface(fn=draft_gpt, inputs = "text", outputs = "text", title = "EC2 troubleshooter for AWS")
+    demo.launch()
+
+    ## draft_gpt()

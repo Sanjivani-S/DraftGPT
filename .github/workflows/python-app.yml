@@ -54,7 +54,7 @@ jobs:
             
         run: |
           pytest
-          python -c 'import test_draftgpt; test_draftgpt.draft_gpt(os.getenv('MESSAGE_LINK'))'
+          python -c 'import test_draftgpt; test_draftgpt.draft_gpt(os.getenv("MESSAGE_LINK"))'
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3

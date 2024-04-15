@@ -21,7 +21,7 @@ def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"]):
     data = {
         "model": "gpt-3.5-turbo",
         "messages": [
-            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "system", "content": "You are responsible for analyzing incident root causes at a software engineering company. Your tasks include extracting messages from users and systems and then determining the root cause of the incident in the incident report."},
             {
                 "role": "user",
                 "content": incident_desc,

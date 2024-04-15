@@ -1,7 +1,7 @@
 import os
 import requests
 from slackeventsapi import SlackEventAdapter
-from urlib.parse import urlparse, parse_qs
+from urllib.parse import urlparse, parse_qs
 
 slack_events_adapter = SlackEventAdapter(os.environ["SLACK_SIGNING_SECRET"], "/slack/events")
 

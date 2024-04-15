@@ -1,10 +1,15 @@
 import os
 import requests
-from slack import WebClient
 from slackeventsapi import SlackEventAdapter
+from urlib.parse import urlparse, parse_qs
 
-slack_client = WebClient(token=os.environ["SLACK_BOT_TOKEN"])
 slack_events_adapter = SlackEventAdapter(os.environ["SLACK_SIGNING_SECRET"], "/slack/events")
+
+def parse_slack_message_link(link):
+    parsed_url = urlparse(link)
+    query_params = parse_qs(parsed_url.query)
+    return query_params.get("text", [""])[0]
+
 
 @slack_events_adapter.on("message")
 def message(event_data):
@@ -13,13 +18,15 @@ def message(event_data):
     text = message.get("text")
 
     if user_id and text:
+        user_input = parse_slack_message_link(text)
+        
         # Call gpt function with user message
-        response = draft_gpt(text)
+        if user_input:
+            response = draft_gpt(user_input)
 
         # Send response back to slack
-        slack_client.chat_postMessage(channel=message["channel"], text=response)
+            print("GPT response with slack:", response)
         
-
 
 
 def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model=os.environ["GPT_MODEL"]):

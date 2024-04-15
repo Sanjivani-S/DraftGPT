@@ -20,9 +20,6 @@ on:
       message-link:
         description: 'Link to the Slack message'
         required: true
-      slack-signing-secret:
-        description: 'Slack signing secret token'
-        required: true
 
 
 jobs:
@@ -54,11 +51,10 @@ jobs:
           OPENAI_API_KEY: ${{github.event.inputs.chatgpt-api-key}}
           GPT_MODEL: ${{ github.event.inputs.choice }}
           MESSAGE_LINK: ${{ github.event.inputs.message-link }}
-          SLACK_SIGNING_SECRET: ${{ github.event.inputs.slack-signing-secret }}
             
         run: |
           pytest
-          python -c 'import test_draftgpt; test_draftgpt.draft_gpt(os.getenv('MESSAGE_LINK'), os.getenv('SLACK_SIGNING_SECRET'))'
+          python -c 'import test_draftgpt; test_draftgpt.draft_gpt(os.getenv('MESSAGE_LINK'))'
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3

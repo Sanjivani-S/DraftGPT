@@ -2,8 +2,6 @@ import os
 import requests
 from urllib.parse import urlparse, parse_qs
 
-slack_events_adapter = SlackEventAdapter(os.environ["SLACK_SIGNING_SECRET"], "/slack/events")
-
 def parse_slack_message_link(link):
     parsed_url = urlparse(link)
     query_params = parse_qs(parsed_url.query)

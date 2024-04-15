@@ -39,7 +39,6 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
     }
 
     response = requests.post(url, headers=headers, json=data)
-    '''
     # Check if the request was successful
     if response.status_code == 200:
         print("Response from OpenAI:", response.json())
@@ -54,9 +53,11 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
         print("Error:", response.status_code, response.text)
 
     return response.status_code
+    
     '''
     if response.status_code == 200:
         return response.json()["choices"][0]["message"]["content"]
+    '''
 
 def test_draft_gpt():
     test_inputs = [

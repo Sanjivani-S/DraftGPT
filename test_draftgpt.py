@@ -9,7 +9,10 @@ def parse_slack_message_link(link):
 
 
 def retrieve_slack_message(slack_message_link, slack_token):
+    # Parse the Slack message link to extract the message ID
     message_id = parse_slack_message_link(slack_message_link)
+    
+    print("Message ID:", message_id)  # Debug print
     
     if not message_id:
         print("Error: Failed to parse Slack message link.")
@@ -17,6 +20,8 @@ def retrieve_slack_message(slack_message_link, slack_token):
     
     # Construct the URL for retrieving the message
     url = f"https://slack.com/api/conversations.history?token={slack_token}&channel={message_id}&limit=1"
+    
+    print("API URL:", url)  # Debug print
     
     # Make a GET request to the Slack API
     headers = {
@@ -42,7 +47,6 @@ def retrieve_slack_message(slack_message_link, slack_token):
     else:
         print("Error:", response.status_code, response.text)
         return ""
-
 
 def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model=os.environ["GPT_MODEL"]):
 

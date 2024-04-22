@@ -3,55 +3,31 @@ import requests
 from urllib.parse import urlparse, parse_qs
 
 
+from urllib.parse import urlparse, parse_qs
+
 def parse_slack_message_link(link):
     parsed_url = urlparse(link)
-    path_components = parsed_url.path.split("/")
-    if len(path_components) >= 3:
-        return path_components[-2]  # Assuming the message ID is the second-to-last component
-    else:
-        print("Error: Invalid Slack message link format")
-        return None
+    query_params = parse_qs(parsed_url.query)
+    channel_id = parsed_url.path.split('/')[2]  # Extract the channel ID from the path
+    return channel_id
 
 
-def retrieve_slack_message(slack_message_link, slack_token):
-    # Parse the Slack message link to extract the message ID
-    message_id = parse_slack_message_link(slack_message_link)
-    
-    print("Message ID:", message_id)  # Debug print
-    
-    if not message_id:
-        print("Error: Failed to parse Slack message link.")
-        return ""
-    
-    # Construct the URL for retrieving the message
-    url = f"https://slack.com/api/conversations.history?token={slack_token}&channel={message_id}&limit=1"
-    
-    print("API URL:", url)  # Debug print
-    
-    # Make a GET request to the Slack API
+def retrieve_slack_message(channel_id, slack_token):
     headers = {
         "Authorization": f"Bearer {slack_token}",
     }
-    response = requests.get(url, headers=headers)
-    
-    # Check if the request was successful
-    if response.status_code == 200:
-        # Extract the message text from the response JSON
-        try:
-            response_json = response.json()
-            messages = response_json.get("messages", [])
-            if messages:
-                return messages[0].get("text", "")
-            else:
-                print("Error: No messages found in response.")
-                return ""
-        except ValueError:
-            print("Error: Response is not valid JSON")
-            print("Response content:", response.content)
-            return ""
-    else:
-        print("Error:", response.status_code, response.text)
+    # Construct the API URL with the channel ID
+    API_URL = f"https://slack.com/api/conversations.history?token={slack_token}&channel={channel_id}&limit=1"
+    response = requests.get(API_URL, headers=headers)
+    try:
+        response_json = response.json()
+        # Extract the text of the first message
+        message_text = response_json["messages"][0]["text"]
+        return message_text
+    except (KeyError, IndexError):
+        print("Error: No messages found in response.")
         return ""
+
 
 def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model=os.environ["GPT_MODEL"]):
 
@@ -117,14 +93,10 @@ def test_draft_gpt():
 
 if __name__ == "__main__":
     slack_message_link = os.getenv("MESSAGE_LINK")
-    print("Slack message link:", slack_message_link)  # Debug print
-
     slack_token = os.getenv("SLACK_TOKEN")
     if slack_message_link and slack_token:
-        message_id = parse_slack_message_link(slack_message_link)
-        print("Message ID:", message_id)  # Debug print
-
-        user_input = retrieve_slack_message(slack_message_link, slack_token)
+        slack_channel_id = parse_slack_message_link(slack_message_link)
+        user_input = retrieve_slack_message(slack_channel_id, slack_token)
         if user_input:
             response = draft_gpt(user_input)
             if response:
@@ -132,6 +104,6 @@ if __name__ == "__main__":
             else:
                 print("Failed to get GPT response.")
         else:
-            print("Failed to retrieve user input from Slack message link.")
+            print("Failed to retrieve user input from Slack channel.")
     else:
-        print("SLACK_MESSAGE_LINK or SLACK_TOKEN environment variable not set.")
+        print("MESSAGE_LINK or SLACK_TOKEN environment variable not set.")

@@ -18,6 +18,7 @@ def retrieve_slack_message(slack_message_link, slack_token):
         return response_json.get("text", "")
     except ValueError:
         print("Error: Response is not valid JSON")
+        print("Response content:", response.content)
         return ""
 
 

@@ -5,10 +5,14 @@ from urllib.parse import urlparse, parse_qs
 
 def parse_slack_message_link(link):
     parsed_url = urlparse(link)
-    query_params = parse_qs(parsed_url.query)
-    # Extract the channel ID from the path
-    channel_id = parsed_url.path.split('/')[2]
-    return channel_id
+    if parsed_url.netloc.endswith('.slack.com'):
+        # Extract channel ID from the path
+        path_parts = parsed_url.path.strip('/').split('/')
+        if len(path_parts) >= 3 and path_parts[-3] == 'archives':
+            channel_id = path_parts[-2]
+            return channel_id
+    print("Error: Invalid Slack message link.")
+    return None
 
 
 def retrieve_slack_message(channel_id, slack_token):

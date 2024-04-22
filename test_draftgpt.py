@@ -113,8 +113,13 @@ def test_draft_gpt():
 
 if __name__ == "__main__":
     slack_message_link = os.getenv("MESSAGE_LINK")
+    print("Slack message link:", slack_message_link)  # Debug print
+
     slack_token = os.getenv("SLACK_TOKEN")
     if slack_message_link and slack_token:
+        message_id = parse_slack_message_link(slack_message_link)
+        print("Message ID:", message_id)  # Debug print
+
         user_input = retrieve_slack_message(slack_message_link, slack_token)
         if user_input:
             response = draft_gpt(user_input)

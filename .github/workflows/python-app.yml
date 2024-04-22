@@ -20,6 +20,11 @@ on:
       message-link:
         description: 'Link to the Slack message'
         required: true
+        default: 'CHANGEME'
+      slack-token:
+        description: 'Slack api token'
+        required: true
+        default: 'CHANGEME'
 
 
 jobs:
@@ -51,10 +56,11 @@ jobs:
           OPENAI_API_KEY: ${{github.event.inputs.chatgpt-api-key}}
           GPT_MODEL: ${{ github.event.inputs.choice }}
           MESSAGE_LINK: ${{ github.event.inputs.message-link }}
+          SLACK_TOKEN: ${{ github.event.inputs.slack-token }}
             
         run: |
           pytest
-          python -c 'import os; import test_draftgpt; test_draftgpt.draft_gpt(os.getenv("MESSAGE_LINK"))'
+          python -c 'import os; import test_draftgpt; test_draftgpt.draft_gpt(os.getenv("MESSAGE_LINK"), os.getenv("SLACK_TOKEN))'
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3

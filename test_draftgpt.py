@@ -7,19 +7,28 @@ def parse_slack_message_link(link):
     query_params = parse_qs(parsed_url.query)
     return query_params.get("text", [""])[0]
 
-def retrieve_slack_message(slack_message_link):
-    return parse_slack_message_link(slack_message_link)
+
+def retrieve_slack_message(slack_message_link, slack_token):
+    headers = {
+        "Authorization": f"Bearer {slack_token}",
+    }
+    response = requests.get(slack_message_link, headers=headers)
+    if response.status_code == 200:
+        return response.json().get("text", "")
+    else:
+        return "Either link or authentication doesnt work"
+
 
 def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model=os.environ["GPT_MODEL"]):
 
     if openai_api_key is None:
         raise ValueError("OpenAI API key is not set in environment variables.")
-    
+
     '''
     with open("incident_descriptions/incident_description.txt", "r") as file:
         incident_desc = file.read().replace("\n", "")
     '''
-    
+
     url = "https://api.openai.com/v1/chat/completions"
 
     headers = {
@@ -53,11 +62,12 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
         print("Error:", response.status_code, response.text)
 
     return response.status_code
-    
+
     '''
     if response.status_code == 200:
         return response.json()["choices"][0]["message"]["content"]
     '''
+
 
 def test_draft_gpt():
     test_inputs = [
@@ -69,13 +79,13 @@ def test_draft_gpt():
         response = draft_gpt(user_input)
 
         assert response != "", f"Response for input '{user_input}' should not be empty"
-        
 
 
 if __name__ == "__main__":
-    slack_message_link = os.getenv("SLACK_MESSAGE_LINK")
-    if slack_message_link:
-        user_input = retrieve_slack_message(slack_message_link)
+    slack_message_link = os.getenv("MESSAGE_LINK")
+    slack_token = os.getenv("SLACK_TOKEN")
+    if slack_message_link and slack_token:
+        user_input = retrieve_slack_message(slack_message_link, slack_token)
         if user_input:
             response = draft_gpt(user_input)
             if response:
@@ -85,4 +95,4 @@ if __name__ == "__main__":
         else:
             print("Failed to retrieve user input from Slack message link.")
     else:
-        print("SLACK_MESSAGE_LINK environment variable not set.")
+        print("SLACK_MESSAGE_LINK or SLACK_TOKEN environment variable not set.")

@@ -13,10 +13,12 @@ def retrieve_slack_message(slack_message_link, slack_token):
         "Authorization": f"Bearer {slack_token}",
     }
     response = requests.get(slack_message_link, headers=headers)
-    if response.status_code == 200:
-        return response.json().get("text", "")
-    else:
-        return "Either link or authentication doesnt work"
+    try:
+        response_json = response.json()
+        return response_json.get("text", "")
+    except ValueError:
+        print("Error: Response is not valid JSON")
+        return ""
 
 
 def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model=os.environ["GPT_MODEL"]):

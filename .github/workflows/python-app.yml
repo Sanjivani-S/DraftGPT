@@ -60,7 +60,7 @@ jobs:
             
         run: |
           pytest
-          python -c 'import os; import test_draftgpt; test_draftgpt.draft_gpt(os.getenv("MESSAGE_LINK"), os.getenv("SLACK_TOKEN"))'
+          python -c 'import os; import test_draftgpt; test_draftgpt;
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3

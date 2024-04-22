@@ -5,8 +5,12 @@ from urllib.parse import urlparse, parse_qs
 
 def parse_slack_message_link(link):
     parsed_url = urlparse(link)
-    query_params = parse_qs(parsed_url.query)
-    return query_params.get("p", [""])[0]
+    path_components = parsed_url.path.split("/")
+    if len(path_components) >= 3:
+        return path_components[-2]  # Assuming the message ID is the second-to-last component
+    else:
+        print("Error: Invalid Slack message link format")
+        return None
 
 
 def retrieve_slack_message(slack_message_link, slack_token):

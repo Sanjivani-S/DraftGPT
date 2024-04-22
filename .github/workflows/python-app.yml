@@ -60,7 +60,7 @@ jobs:
             
         run: |
           pytest
-          python -c 'import os; import test_draftgpt; test_draftgpt.draft_gpt(os.getenv("SLACK_MESSAGE_LINK"), os.getenv("SLACK_TOKEN")) if __name__ == "__main__" else None'
+          python -c 'import os; import test_draftgpt; import sys; sys.exit(test_draftgpt.main()) if __name__ == "__main__" else None'
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3

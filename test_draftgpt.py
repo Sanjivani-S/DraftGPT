@@ -9,16 +9,38 @@ def parse_slack_message_link(link):
 
 
 def retrieve_slack_message(slack_message_link, slack_token):
+    message_id = parse_slack_message_link(slack_message_link)
+    
+    if not message_id:
+        print("Error: Failed to parse Slack message link.")
+        return ""
+    
+    # Construct the URL for retrieving the message
+    url = f"https://slack.com/api/conversations.history?token={slack_token}&channel={message_id}&limit=1"
+    
+    # Make a GET request to the Slack API
     headers = {
         "Authorization": f"Bearer {slack_token}",
     }
-    response = requests.get(slack_message_link, headers=headers)
-    try:
-        response_json = response.json()
-        return response_json.get("text", "")
-    except ValueError:
-        print("Error: Response is not valid JSON")
-        print("Response content:", response.content)
+    response = requests.get(url, headers=headers)
+    
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Extract the message text from the response JSON
+        try:
+            response_json = response.json()
+            messages = response_json.get("messages", [])
+            if messages:
+                return messages[0].get("text", "")
+            else:
+                print("Error: No messages found in response.")
+                return ""
+        except ValueError:
+            print("Error: Response is not valid JSON")
+            print("Response content:", response.content)
+            return ""
+    else:
+        print("Error:", response.status_code, response.text)
         return ""
 
 

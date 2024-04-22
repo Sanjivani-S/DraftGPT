@@ -3,12 +3,11 @@ import requests
 from urllib.parse import urlparse, parse_qs
 
 
-from urllib.parse import urlparse, parse_qs
-
 def parse_slack_message_link(link):
     parsed_url = urlparse(link)
     query_params = parse_qs(parsed_url.query)
-    channel_id = parsed_url.path.split('/')[2]  # Extract the channel ID from the path
+    # Extract the channel ID from the path
+    channel_id = parsed_url.path.split('/')[2]
     return channel_id
 
 
@@ -21,12 +20,17 @@ def retrieve_slack_message(channel_id, slack_token):
     response = requests.get(API_URL, headers=headers)
     try:
         response_json = response.json()
-        # Extract the text of the first message
-        message_text = response_json["messages"][0]["text"]
-        return message_text
-    except (KeyError, IndexError):
-        print("Error: No messages found in response.")
-        return ""
+        # Check if messages are found in the response
+        if "messages" in response_json:
+            # Extract the text of the first message
+            message_text = response_json["messages"][0]["text"]
+            return message_text
+        else:
+            print("Error: No messages found in response.")
+            return None
+    except Exception as e:
+        print("Error:", e)
+        return None
 
 
 def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model=os.environ["GPT_MODEL"]):

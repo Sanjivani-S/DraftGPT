@@ -2,10 +2,11 @@ import os
 import requests
 from urllib.parse import urlparse, parse_qs
 
+
 def parse_slack_message_link(link):
     parsed_url = urlparse(link)
     query_params = parse_qs(parsed_url.query)
-    return query_params.get("text", [""])[0]
+    return query_params.get("p", [""])[0]
 
 
 def retrieve_slack_message(slack_message_link, slack_token):

@@ -107,9 +107,9 @@ def test_draft_gpt():
 if __name__ == "__main__":
     slack_message_link = os.getenv("MESSAGE_LINK")
     slack_token = os.getenv("SLACK_TOKEN")
-    if slack_message_link and slack_token:
+    if slack_token:
         slack_channel_id, message_id = parse_slack_message_link(slack_message_link)
-        print("Slack channel ID:", slack_channel_id, message_id)
+        print("Slack channel ID:", slack_channel_id, "Message ID:", message_id)
         user_input = retrieve_slack_message(slack_channel_id, message_id, slack_token)
         if user_input:
             response = draft_gpt(user_input)
@@ -120,4 +120,4 @@ if __name__ == "__main__":
         else:
             print("Failed to retrieve user input from Slack channel.")
     else:
-        print("MESSAGE_LINK or SLACK_TOKEN environment variable not set.")
+        print("SLACK_TOKEN environment variable not set.")

@@ -120,13 +120,11 @@ if __name__ == "__main__":
     if slack_channel_id and message_id:
         print("Slack channel ID:", slack_channel_id, "Message ID:", message_id)
         user_input = retrieve_slack_message(slack_channel_id, message_id, slack_token)
-        if user_input:
-            response = draft_gpt(user_input)
-            if response:
-                print("GPT response:", response)
-            else:
-                print("Failed to get GPT response.")
-        else:
-            print("Failed to retrieve user input from Slack channel.")
     else:
-        print("No Slack message link provided. Skipping Slack message retrieval.")
+        print("No Slack message link provided. Running draft_gpt without user input.")
+        user_input = ""
+    response = draft_gpt(user_input)
+    if response:
+        print("GPT response:", response)
+    else:
+        print("Failed to get GPT response.")

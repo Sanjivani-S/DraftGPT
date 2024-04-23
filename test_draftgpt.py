@@ -110,10 +110,14 @@ if __name__ == "__main__":
     slack_message_link = os.getenv("MESSAGE_LINK")
     slack_token = os.getenv("SLACK_TOKEN")
     
-    if slack_message_link and slack_token:
-        slack_channel_id, message_id = parse_slack_message_link(slack_message_link)
+    if slack_message_link:
+        parsed_link = parse_slack_message_link(slack_message_link)
+        if parsed_link:
+            slack_channel_id, message_id = parsed_link
+        else:
+            slack_channel_id = None
+            message_id = None
     else:
-        # Default values when no Slack message link is provided
         slack_channel_id = None
         message_id = None
     
@@ -121,8 +125,9 @@ if __name__ == "__main__":
         print("Slack channel ID:", slack_channel_id, "Message ID:", message_id)
         user_input = retrieve_slack_message(slack_channel_id, message_id, slack_token)
     else:
-        print("No Slack message link provided. Running draft_gpt without user input.")
+        print("No valid Slack message link provided. Running draft_gpt without user input.")
         user_input = ""
+    
     response = draft_gpt(user_input)
     if response:
         print("GPT response:", response)

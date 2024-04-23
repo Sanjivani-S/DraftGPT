@@ -107,9 +107,9 @@ if __name__ == "__main__":
     slack_message_link = os.getenv("MESSAGE_LINK")
     slack_token = os.getenv("SLACK_TOKEN")
     if slack_message_link and slack_token:
-        slack_channel_id = parse_slack_message_link(slack_message_link)
-        print("Slack channel ID:", slack_channel_id)  # Add this line for debugging
-        user_input = retrieve_slack_message(slack_channel_id, slack_token)
+        slack_channel_id, message_id = parse_slack_message_link(slack_message_link)
+        print("Slack channel ID:", slack_channel_id, message_id)
+        user_input = retrieve_slack_message(slack_channel_id, message_id, slack_token)
         if user_input:
             response = draft_gpt(user_input)
             if response:

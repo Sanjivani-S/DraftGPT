@@ -10,18 +10,20 @@ def parse_slack_message_link(link):
         path_parts = parsed_url.path.strip('/').split('/')
         if len(path_parts) >= 3 and path_parts[-3] == 'archives':
             channel_id = path_parts[-2]
-            return channel_id
+            message_id = path_parts[-1]
+            return channel_id, message_id
     print("Error: Invalid Slack message link.")
     return None
 
 
-def retrieve_slack_message(channel_id, slack_token):
+def retrieve_slack_message(channel_id, message_id, slack_token):
     headers = {
         "Authorization": f"Bearer {slack_token}",
     }
     # Construct the request data
     data = {
         "channel": channel_id,
+        "latest": message_id,
         "limit": 1,
         "inclusive": True
     }

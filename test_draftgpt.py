@@ -20,7 +20,7 @@ def retrieve_slack_message(channel_id, slack_token):
         "Authorization": f"Bearer {slack_token}",
     }
     # Construct the API URL with the channel ID
-    API_URL = f"https://slack.com/api/conversations.history?token={slack_token}&channel={channel_id}&limit=1"
+    API_URL = f"https://slack.com/api/conversations.history?token={slack_token}&channel={channel_id}&limit=1&inclusive=true"
     print("API URL:", API_URL)  # Print the constructed API URL
     response = requests.get(API_URL, headers=headers)
     print("Response:", response)  # Print the response object

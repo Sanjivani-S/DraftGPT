@@ -1,6 +1,6 @@
 import os
 import requests
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import urlparse
 
 
 def parse_slack_message_link(link):

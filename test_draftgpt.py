@@ -126,7 +126,7 @@ if __name__ == "__main__":
         user_input = retrieve_slack_message(slack_channel_id, message_id, slack_token)
     else:
         print("No valid Slack message link provided. Running draft_gpt without user input.")
-        user_input = ""
+        user_input = None
     
     response = draft_gpt(user_input)
     if response:

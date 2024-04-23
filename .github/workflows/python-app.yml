@@ -20,11 +20,11 @@ on:
       message-link:
         description: 'Link to the Slack message'
         required: false
-        default: 'CHANGEME'
+        default: 'Not necessary to include'
       slack-token:
         description: 'Slack api token'
         required: false
-        default: 'CHANGEME'
+        default: 'Necessary if slack-link included'
 
 
 jobs:

@@ -29,7 +29,7 @@ def retrieve_slack_message(channel_id, slack_token):
         message_text = response_json["messages"][0]["text"]
         return message_text
     except (KeyError, IndexError):
-        print("Error: No messages found in response.")
+        print("Error: No messages found in response.", response)
         return ""
 
 

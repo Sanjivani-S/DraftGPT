@@ -23,13 +23,16 @@ def retrieve_slack_message(channel_id, slack_token):
     API_URL = f"https://slack.com/api/conversations.history?token={slack_token}&channel={channel_id}&limit=1"
     print("API URL:", API_URL)  # Print the constructed API URL
     response = requests.get(API_URL, headers=headers)
+    print("Response:", response)  # Print the response object
     try:
         response_json = response.json()
+        print("Response JSON:", response_json)  # Print the JSON response
         # Extract the text of the first message
         message_text = response_json["messages"][0]["text"]
         return message_text
-    except (KeyError, IndexError):
-        print("Error: No messages found in response.", response)
+    except Exception as e:
+        print("Error:", e)  # Print any exceptions that occur
+        print("Error: No messages found in response.", response_json)
         return ""
 
 
@@ -77,12 +80,7 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
 
     return response.status_code
 
-    '''
-    if response.status_code == 200:
-        return response.json()["choices"][0]["message"]["content"]
-    '''
-
-
+ 
 def test_draft_gpt():
     test_inputs = [
             "What is the capital of Sweden?",

@@ -19,11 +19,11 @@ on:
         - gpt-4-turbo
       message-link:
         description: 'Link to the Slack message'
-        required: true
+        required: false
         default: 'CHANGEME'
       slack-token:
         description: 'Slack api token'
-        required: true
+        required: false
         default: 'CHANGEME'
 
 

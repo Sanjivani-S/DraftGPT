@@ -21,9 +21,10 @@ def retrieve_slack_message(channel_id, message_id, slack_token):
         "Authorization": f"Bearer {slack_token}",
     }
     # Construct the request data
+    timestamp = message_id[1:0]
     data = {
         "channel": channel_id,
-        "latest": message_id,
+        "latest": timestamp,
         "limit": 1,
         "inclusive": True
     }

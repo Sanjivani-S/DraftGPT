@@ -52,10 +52,12 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
     if openai_api_key is None:
         raise ValueError("OpenAI API key is not set in environment variables.")
 
-    '''
+    
     with open("incident_descriptions/incident_description.txt", "r") as file:
         incident_desc = file.read().replace("\n", "")
-    '''
+    
+    if user_input == None:
+        user_input = incident_desc
 
     url = "https://api.openai.com/v1/chat/completions"
 
@@ -107,8 +109,15 @@ def test_draft_gpt():
 if __name__ == "__main__":
     slack_message_link = os.getenv("MESSAGE_LINK")
     slack_token = os.getenv("SLACK_TOKEN")
-    if slack_token:
+    
+    if slack_message_link and slack_token:
         slack_channel_id, message_id = parse_slack_message_link(slack_message_link)
+    else:
+        # Default values when no Slack message link is provided
+        slack_channel_id = None
+        message_id = None
+    
+    if slack_channel_id and message_id:
         print("Slack channel ID:", slack_channel_id, "Message ID:", message_id)
         user_input = retrieve_slack_message(slack_channel_id, message_id, slack_token)
         if user_input:
@@ -120,4 +129,4 @@ if __name__ == "__main__":
         else:
             print("Failed to retrieve user input from Slack channel.")
     else:
-        print("SLACK_TOKEN environment variable not set.")
+        print("No Slack message link provided. Skipping Slack message retrieval.")

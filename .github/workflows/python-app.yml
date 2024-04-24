@@ -17,6 +17,14 @@ on:
         - gpt-3.5-turbo
         - gpt-4
         - gpt-4-turbo
+      message-link:
+        description: 'Link to the Slack message'
+        required: false
+        default: 'Not necessary to include'
+      slack-token:
+        description: 'Slack api token'
+        required: false
+        default: 'Necessary if slack-link included'
 
 
 jobs:
@@ -47,9 +55,12 @@ jobs:
         env:
           OPENAI_API_KEY: ${{github.event.inputs.chatgpt-api-key}}
           GPT_MODEL: ${{ github.event.inputs.choice }}
+          MESSAGE_LINK: ${{ github.event.inputs.message-link }}
+          SLACK_TOKEN: ${{ github.event.inputs.slack-token }}
+            
         run: |
           pytest
-          python -c 'import test_draftgpt; test_draftgpt.draft_gpt()'
+          python test_draftgpt.py
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3

@@ -49,15 +49,39 @@ def retrieve_slack_message(channel_id, message_id, slack_token):
 
 def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model=os.environ["GPT_MODEL"]):
 
+os.environ["DRAFTGPT_INPUT"] = "https://raw.githubusercontent.com/Sanjivani-S/DraftGPT/main/incident_descriptions/incident_description.txt"
+# "https://example-files.online-convert.com/document/txt/example.txt"
+# "https://github.com/Sanjivani-S/DraftGPT//blob/main//requirements.txt" # "incident_descriptions/incident_description.txt"
+os.environ["GPT_MODEL"] = "gpt-3.5-turbo"
+
+def draft_gpt(openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model=os.environ["GPT_MODEL"],  input_file=os.environ["DRAFTGPT_INPUT"]):
+
     if openai_api_key is None:
         raise ValueError("OpenAI API key is not set in environment variables.")
 
     
-    with open("incident_descriptions/incident_description.txt", "r") as file:
-        incident_desc = file.read().replace("\n", "")
+  #  with open("incident_descriptions/incident_description.txt", "r") as file:
+   # if (with open("input_file", "r") as file:):
+   # with open(input_file, "r") as file:
+    #    incident_desc = file.read().replace("/n", "")
     
     if user_input == None:
         user_input = incident_desc
+
+
+    if input_file.startswith("http://") or input_file.startswith("https://"):
+        response = requests.get(input_file)
+        
+        if response.status_code == 200:
+            incident_desc = response.text
+        else:
+            print("Failed to fetch file:", response.status_code)
+    else:
+        with open(input_file, "r") as file:
+            incident_desc = file.read()
+
+    print("\n contents of file read == \n")       
+    print (incident_desc)
 
     url = "https://api.openai.com/v1/chat/completions"
 

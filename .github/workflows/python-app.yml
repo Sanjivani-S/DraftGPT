@@ -25,6 +25,9 @@ on:
         description: 'Slack api token'
         required: false
         default: 'Necessary if slack-link included'
+      input_file_path:
+        description: 'enter the path for input file'
+        required: true
 
 
 jobs:
@@ -58,6 +61,7 @@ jobs:
           MESSAGE_LINK: ${{ github.event.inputs.message-link }}
           SLACK_TOKEN: ${{ github.event.inputs.slack-token }}
             
+          DRAFTGPT_INPUT: ${{github.event.inputs.input_file_path}}
         run: |
           pytest
           python test_draftgpt.py

@@ -61,7 +61,7 @@ jobs:
           MESSAGE_LINK: ${{ github.event.inputs.message-link }}
           SLACK_TOKEN: ${{ github.event.inputs.slack-token }}
             
-          DRAFTGPT_INPUT: ${{github.event.inputs.input_file_path}}
+          DRAFTGPT_INPUT_LOGFILE: ${{github.event.inputs.input_file_path}}
         run: |
           pytest
           python test_draftgpt.py

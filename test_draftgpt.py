@@ -47,39 +47,16 @@ def retrieve_slack_message(channel_id, message_id, slack_token):
         return None
 
 
-def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model=os.environ["GPT_MODEL"]):
+def draft_gpt(user_input, openai_api_key=None, gpt_model=None):
+    if not openai_api_key:
+        openai_api_key = os.environ.get("OPENAI_API_KEY", "")
+    if not gpt_model:
+        gpt_model = os.environ.get("GPT_MODEL", "")
 
-    if openai_api_key is None:
+    if not openai_api_key:
         raise ValueError("OpenAI API key is not set in environment variables.")
-
     
-    with open("incident_descriptions/incident_description.txt", "r") as file:
-        incident_desc = file.read().replace("\n", "")
-    
-    if user_input is None:
-        user_input = incident_desc
-
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {openai_api_key}",
-    }
-    
-
-
-    data = {
-        "model": gpt_model,
-        "messages": [
-            {"role": "system", "content": "You are responsible for analyzing incident root causes at a software engineering company. Your tasks include extracting messages from users and systems and then determining the root cause of the incident in the incident report."},
-            {
-                "role": "user",
-                "content": user_input,
-            },
-        ],
-    }    
-    if gpt_model[:2] == "gpt":
-        url = "https://api.openai.com/v1/chat/completions"
-
-    else:
+    if not gpt_model.startswith("gpt"):
         url = "https://api.openai.com/v1/threads/thread_qKgp6vFKmOmkjZBkSKJQMuEa/messages"
         headers = {
             "Content-Type": "application/json",
@@ -88,22 +65,38 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
         }
         data = {
             "role": "user",
-            "content": user_input,
-            }
-            
+            "content": user_input
+        }
+    else:
+        url = "https://api.openai.com/v1/chat/completions"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {openai_api_key}",
+        }
+        data = {
+            "model": gpt_model,
+            "messages": [
+                {"role": "system", "content": "You are responsible for analyzing incident root causes at a software engineering company. Your tasks include extracting messages from users and systems and then determining the root cause of the incident in the incident report."},
+                {"role": "user", "content": user_input}
+            ]
+        }
+    
     print(data)
-
+    
     response = requests.post(url, headers=headers, json=data)
-    # Check if the request was successful
+    
     if response.status_code == 200:
-        print("Response from OpenAI:", response.json())
-        print("\n")
-        print(response.json()["choices"][0]["message"]["content"])
-
-        file = open("report.txt", 'w')
-        file.write(response.json()["choices"][0]["message"]["content"])
-        file.close()
-
+        response_data = response.json()
+        print("Response from OpenAI:", response_data)
+        
+        if gpt_model.startswith("gpt"):
+            for choice in response_data.get("choices", []):
+                print(choice.get("message", {}).get("content", ""))
+                file = open("report.txt", 'w')
+                file.write(choice.get("message", {}).get("content", ""))
+                file.close()
+        else:
+            print(response_data.get("content", ""))
     else:
         print("Error:", response.status_code, response.text)
 
@@ -114,7 +107,7 @@ def test_draft_gpt():
     test_inputs = [
             "What is the capital of Sweden?",
             "Please solve this math problem: 1+1"
-            ]
+    ]
 
     for user_input in test_inputs:
         response = draft_gpt(user_input)

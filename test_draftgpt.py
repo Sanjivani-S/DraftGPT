@@ -53,7 +53,7 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
 
     if input_logfile.startswith("http://") or input_logfile.startswith("https://"):
         response = requests.get(input_logfile)
-
+        incident_desc = ""
         if response.status_code == 200:
             incident_desc = response.text
         else:

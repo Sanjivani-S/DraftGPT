@@ -64,16 +64,7 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
         "Authorization": f"Bearer {openai_api_key}",
     }
     
-    if gpt_model[:2] == "gpt":
-        url = "https://api.openai.com/v1/chat/completions"
 
-    else:
-        url = "https://api.openai.com/v1/assistants"
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {openai_api_key}",
-            "OpenAI-Beta": "assistants=v2"
-            }
 
     data = {
         "model": gpt_model,
@@ -84,7 +75,33 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
                 "content": user_input,
             },
         ],
+    }    
+    if gpt_model[:2] == "gpt":
+        url = "https://api.openai.com/v1/chat/completions"
+
+    else:
+        url = "https://api.openai.com/v1/assistants"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {openai_api_key}",
+            "OpenAI-Beta": "assistants=v2"
+            }
+        data = {
+
+        "model": gpt_model,
+        "messages":[
+    {
+      "role": "user",
+      "content": user_input,
+      "attachments": [
+        {
+          "tools": [{"type": "code_interpreter"}]
+        }
+      ]
     }
+  ]
+}
+
 
     response = requests.post(url, headers=headers, json=data)
     # Check if the request was successful

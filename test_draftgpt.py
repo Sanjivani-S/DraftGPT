@@ -66,7 +66,7 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
 
 
     print("\n contents of file read == \n")   
-    print(incident_desc)
+    # print(incident_desc)
 
     # check if user has provided input (user_input) from slack channel as well.
     # if found, append it to query.
@@ -78,7 +78,7 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
         user_input = user_input + " " + incident_desc
 
     print("\n Total input for chatgpt - slack input + log file input == \n")     
-    print(user_input)
+    # print(user_input)
 
     if not gpt_model.startswith("gpt"):
         url = "https://api.openai.com/v1/threads/thread_qKgp6vFKmOmkjZBkSKJQMuEa/messages"

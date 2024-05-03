@@ -87,10 +87,8 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
             "OpenAI-Beta": "assistants=v2"
             }
         data = {
-
         "model": gpt_model,
-        "role": "user",
-        "content": user_input,
+        "message": user_input,
 }
 
 

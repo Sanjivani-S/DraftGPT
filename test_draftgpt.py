@@ -80,15 +80,15 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
         url = "https://api.openai.com/v1/chat/completions"
 
     else:
-        url = "https://api.openai.com/v1/assistants"
+        url = "https://api.openai.com/v1/threads/thread_qKgp6vFKmOmkjZBkSKJQMuEa/messages"
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {openai_api_key}",
             "OpenAI-Beta": "assistants=v2"
             }
         data = {
-        "model": gpt_model,
-        "content": user_input,
+            "role": "user", 
+            "content": user_input,
 }
 
 

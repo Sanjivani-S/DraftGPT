@@ -102,8 +102,8 @@ def test_draft_gpt():
 
     for user_input in test_inputs:
         response = draft_gpt(user_input)
-
-        assert response.strip(), f"Response for input '{user_input}' should not be empty"
+        
+        assert response is not None and response != "", f"Response for input '{user_input}' should not be empty"
         assert len(response.split()) > 2, f"Response for input '{user_input}' should contain more than two words"
 
 

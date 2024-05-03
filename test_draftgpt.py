@@ -94,7 +94,7 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
     return response.status_code
 
  
-def test_draft_gpt(user_input):
+def test_draft_gpt():
     test_inputs = [
         "What is the capital of Sweden?",
         "Please solve this math problem: 1+1"

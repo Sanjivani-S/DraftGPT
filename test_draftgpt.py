@@ -94,16 +94,17 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
     return response.status_code
 
  
-def test_draft_gpt():
+def test_draft_gpt(user_input):
     test_inputs = [
-            "What is the capital of Sweden?",
-            "Please solve this math problem: 1+1"
-            ]
+        "What is the capital of Sweden?",
+        "Please solve this math problem: 1+1"
+    ]
 
     for user_input in test_inputs:
         response = draft_gpt(user_input)
 
-        assert response != "", f"Response for input '{user_input}' should not be empty"
+        assert response.strip(), f"Response for input '{user_input}' should not be empty"
+        assert len(response.split()) > 2, f"Response for input '{user_input}' should contain more than two words"
 
 
 if __name__ == "__main__":

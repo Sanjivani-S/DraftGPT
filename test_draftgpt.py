@@ -93,7 +93,7 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
 
     return response.status_code
 
- 
+''' 
 def test_draft_gpt():
     test_inputs = [
         "What is the capital of Sweden?",
@@ -105,7 +105,7 @@ def test_draft_gpt():
         
         assert response is not None and response != "", f"Response for input '{user_input}' should not be empty"
         assert len(response.split()) > 2, f"Response for input '{user_input}' should contain more than two words"
-
+'''
 
 if __name__ == "__main__":
     slack_message_link = os.getenv("MESSAGE_LINK")

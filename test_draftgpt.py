@@ -72,7 +72,7 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {openai_api_key}",
-            "OpenAI-Beta": "assistans=v2"
+            "OpenAI-Beta": "assistants=v2"
             }
 
     data = {

@@ -105,25 +105,6 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
     print("\n Total input for chatgpt - slack input + log file input == \n")     
     print(user_input)
 
-    '''
-    url = "https://api.openai.com/v1/chat/completions"
-
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {openai_api_key}",
-    }
-
-    data = {
-        "model": gpt_model,
-        "messages": [
-            {"role": "system", "content": "You are responsible for analyzing incident root causes at a software engineering company. Your tasks include extracting messages from users and systems and then determining the root cause of the incident in the incident report."},
-            {
-                "role": "user",
-                "content": user_input,
-            },
-        ],
-    }
-    '''
 
     response = requests.post(url, headers=headers, json=data)
 

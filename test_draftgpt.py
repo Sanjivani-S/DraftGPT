@@ -89,17 +89,8 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
         data = {
 
         "model": gpt_model,
-        "message":[
-    {
-      "role": "user",
-      "content": user_input,
-      "attachments": [
-        {
-          "tools": [{"type": "code_interpreter"}]
-        }
-      ]
-    }
-  ]
+        "role": "user",
+        "content": user_input,
 }
 
 

@@ -85,12 +85,13 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
             "Content-Type": "application/json",
             "Authorization": f"Bearer {openai_api_key}",
             "OpenAI-Beta": "assistants=v2"
-            }
+        }
         data = {
-            "role": "user", 
-            "content": user_input,
-}
-
+            "model": gpt_model,
+            "messages": [
+                {"role": "user", "content": user_input}
+            ]
+        }
 
     response = requests.post(url, headers=headers, json=data)
     # Check if the request was successful

@@ -63,7 +63,7 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
         url = "https://api.openai.com/v1/chat/completions"
 
     else:
-        url = "https://api.openai.com/v2/assistants"
+        url = "https://api.openai.com/v1/assistants"
 
     headers = {
         "Content-Type": "application/json",

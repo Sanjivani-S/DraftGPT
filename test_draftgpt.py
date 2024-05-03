@@ -47,14 +47,12 @@ def retrieve_slack_message(channel_id, message_id, slack_token):
         return None
 
 
-def draft_gpt(user_input, openai_api_key=None, gpt_model=None):
-    if not openai_api_key:
-        openai_api_key = os.environ.get("OPENAI_API_KEY", "")
-    if not gpt_model:
-        gpt_model = os.environ.get("GPT_MODEL", "")
+def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model=os.environ["GPT_MODEL"],  input_logfile=os.environ["DRAFTGPT_INPUT_LOGFILE"]):
+
 
     if not openai_api_key:
         raise ValueError("OpenAI API key is not set in environment variables.")
+
     
     if not gpt_model.startswith("gpt"):
         url = "https://api.openai.com/v1/threads/thread_qKgp6vFKmOmkjZBkSKJQMuEa/messages"
@@ -82,7 +80,51 @@ def draft_gpt(user_input, openai_api_key=None, gpt_model=None):
         }
     
     print(data)
-    
+
+    if input_logfile.startswith("http://") or input_logfile.startswith("https://"):
+        response = requests.get(input_logfile)
+        incident_desc = ""
+        if response.status_code == 200:
+            incident_desc = response.text
+        else:
+            print("Failed to fetch file:", response.status_code)
+    else:
+        with open(input_logfile, "r") as file:
+            incident_desc = file.read()
+
+    print("\n contents of file read == \n")   
+    print(incident_desc)
+
+    # check if user has provided input (user_input) from slack channel as well.
+    # if found, append it to query.
+    # if not found add only input_logfile to user input.
+
+    if user_input is None:
+        user_input = incident_desc
+    else:
+        user_input = user_input + " " + incident_desc
+
+    print("\n Total input for chatgpt - slack input + log file input == \n")     
+    print(user_input)
+
+    url = "https://api.openai.com/v1/chat/completions"
+
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {openai_api_key}",
+    }
+
+    data = {
+        "model": gpt_model,
+        "messages": [
+            {"role": "system", "content": "You are responsible for analyzing incident root causes at a software engineering company. Your tasks include extracting messages from users and systems and then determining the root cause of the incident in the incident report."},
+            {
+                "role": "user",
+                "content": user_input,
+            },
+        ],
+    }
+
     response = requests.post(url, headers=headers, json=data)
     
     if response.status_code == 200:
@@ -113,11 +155,10 @@ def test_draft_gpt():
         response = draft_gpt(user_input)
         assert response != "", f"Response for input '{user_input}' should not be empty"
 
-
 if __name__ == "__main__":
     slack_message_link = os.getenv("MESSAGE_LINK")
     slack_token = os.getenv("SLACK_TOKEN")
-    
+
     if slack_message_link:
         parsed_link = parse_slack_message_link(slack_message_link)
         if parsed_link:
@@ -128,14 +169,14 @@ if __name__ == "__main__":
     else:
         slack_channel_id = None
         message_id = None
-    
+
     if slack_channel_id and message_id:
         print("Slack channel ID:", slack_channel_id, "Message ID:", message_id)
         user_input = retrieve_slack_message(slack_channel_id, message_id, slack_token)
     else:
-        print("No valid Slack message link provided. Running draft_gpt without user input.")
+        print("No valid Slack message link provided. Running draft_gpt without user input from slack channel.")
         user_input = None
-    
+
     response = draft_gpt(user_input)
     if response:
         print("GPT response:", response)

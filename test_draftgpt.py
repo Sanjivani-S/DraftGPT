@@ -52,32 +52,7 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
     if not openai_api_key:
         raise ValueError("OpenAI API key is not set in environment variables.")
 
-    
-    if not gpt_model.startswith("gpt"):
-        url = "https://api.openai.com/v1/threads/thread_qKgp6vFKmOmkjZBkSKJQMuEa/messages"
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {openai_api_key}",
-            "OpenAI-Beta": "assistants=v2"
-        }
-        data = {
-            "role": "user",
-            "content": user_input
-        }
-    else:
-        url = "https://api.openai.com/v1/chat/completions"
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {openai_api_key}",
-        }
-        data = {
-            "model": gpt_model,
-            "messages": [
-                {"role": "system", "content": "You are responsible for analyzing incident root causes at a software engineering company. Your tasks include extracting messages from users and systems and then determining the root cause of the incident in the incident report."},
-                {"role": "user", "content": user_input}
-            ]
-        }
-    
+
     if input_logfile.startswith("http://") or input_logfile.startswith("https://"):
         response = requests.get(input_logfile)
         incident_desc = ""
@@ -105,6 +80,30 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
     print("\n Total input for chatgpt - slack input + log file input == \n")     
     print(user_input)
 
+    if not gpt_model.startswith("gpt"):
+        url = "https://api.openai.com/v1/threads/thread_qKgp6vFKmOmkjZBkSKJQMuEa/messages"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {openai_api_key}",
+            "OpenAI-Beta": "assistants=v2"
+        }
+        data = {
+            "role": "user",
+            "content": user_input
+        }
+    else:
+        url = "https://api.openai.com/v1/chat/completions"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {openai_api_key}",
+        }
+        data = {
+            "model": gpt_model,
+            "messages": [
+                {"role": "system", "content": "You are responsible for analyzing incident root causes at a software engineering company. Your tasks include extracting messages from users and systems and then determining the root cause of the incident in the incident report."},
+                {"role": "user", "content": user_input}
+            ]
+        }
 
     response = requests.post(url, headers=headers, json=data)
 

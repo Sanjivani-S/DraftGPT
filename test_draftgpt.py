@@ -105,7 +105,7 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
     print("\n Total input for chatgpt - slack input + log file input == \n")     
     print(user_input)
 
-'''
+    '''
     url = "https://api.openai.com/v1/chat/completions"
 
     headers = {
@@ -123,10 +123,11 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
             },
         ],
     }
-'''
+    '''
 
     response = requests.post(url, headers=headers, json=data)
-    
+
+
     if response.status_code == 200:
         response_data = response.json()
         print("Response from OpenAI:", response_data)

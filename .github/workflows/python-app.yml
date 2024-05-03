@@ -17,6 +17,7 @@ on:
         - gpt-3.5-turbo
         - gpt-4
         - gpt-4-turbo
+        - asst_0nwYNFHQKALApXRp70mTLu8z
       message-link:
         description: 'Link to the Slack message'
         required: false

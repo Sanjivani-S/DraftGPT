@@ -56,7 +56,7 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
     with open("incident_descriptions/incident_description.txt", "r") as file:
         incident_desc = file.read().replace("\n", "")
     
-    if user_input == None:
+    if user_input is None:
         user_input = incident_desc
 
     url = "https://api.openai.com/v1/chat/completions"
@@ -67,7 +67,7 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
     }
 
     data = {
-        "model": asst_0nwYNFHQKALApXRp70mTLu8z,
+        "model": gpt_model,
         "messages": [
             {"role": "system", "content": "You are responsible for analyzing incident root causes at a software engineering company. Your tasks include extracting messages from users and systems and then determining the root cause of the incident in the incident report."},
             {

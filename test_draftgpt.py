@@ -59,6 +59,11 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
     if user_input is None:
         user_input = incident_desc
 
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {openai_api_key}",
+    }
+    
     if gpt_model[:2] == "gpt":
         url = "https://api.openai.com/v1/chat/completions"
 
@@ -68,13 +73,7 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
             "Content-Type": "application/json",
             "Authorization": f"Bearer {openai_api_key}",
             "OpenAI-Beta": "assistans=v2"
-    } 
-
-
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {openai_api_key}",
-    }
+            }
 
     data = {
         "model": gpt_model,

@@ -59,7 +59,11 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
     if user_input is None:
         user_input = incident_desc
 
-    url = "https://api.openai.com/v1/chat/completions"
+    if gpt_model[:2] == "gpt":
+        url = "https://api.openai.com/v1/chat/completions"
+
+    else:
+        url = "https://api.openai.com/v2/assistants"
 
     headers = {
         "Content-Type": "application/json",
@@ -124,7 +128,7 @@ if __name__ == "__main__":
         print("Slack channel ID:", slack_channel_id, "Message ID:", message_id)
         user_input = retrieve_slack_message(slack_channel_id, message_id, slack_token)
     else:
-        print("No valid Slack message link provided. Running draft_gpt with default user_input.")
+        print("No valid Slack message link provided. Running draft_gpt without user input.")
         user_input = None
     
     response = draft_gpt(user_input)

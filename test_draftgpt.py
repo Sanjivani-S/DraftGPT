@@ -86,7 +86,7 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
         else:
             print("Failed to fetch file:", response.status_code)
     else:
-        with open("incident_description/incident_description.txt", "r") as file:
+        with open("incident_descriptions/incident_description.txt", "r") as file:
             incident_desc = file.read().replace("\n","")
 
 

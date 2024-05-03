@@ -48,8 +48,7 @@ def retrieve_slack_message(channel_id, message_id, slack_token):
 
 
 def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model=os.environ["GPT_MODEL"],  input_logfile=os.environ["DRAFTGPT_INPUT_LOGFILE"]):
-
-
+    
     if not openai_api_key:
         raise ValueError("OpenAI API key is not set in environment variables.")
 
@@ -79,8 +78,6 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
             ]
         }
     
-    print(data)
-
     if input_logfile.startswith("http://") or input_logfile.startswith("https://"):
         response = requests.get(input_logfile)
         incident_desc = ""
@@ -89,8 +86,9 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
         else:
             print("Failed to fetch file:", response.status_code)
     else:
-        with open(input_logfile, "r") as file:
-            incident_desc = file.read()
+        with open("incident_description/incident_description.txt", "r") as file:
+            incident_desc = file.read().replace("\n","")
+
 
     print("\n contents of file read == \n")   
     print(incident_desc)

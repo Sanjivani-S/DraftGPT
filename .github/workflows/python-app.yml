@@ -27,7 +27,7 @@ on:
         default: 'Necessary if slack-link included'
       input_file_path:
         description: 'enter the path for input file'
-        required: true
+        required: false
 
 
 jobs:

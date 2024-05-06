@@ -58,7 +58,7 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
             incident_desc = response.text
         else:
             print("Failed to fetch file:", response.status_code)
-    elif input_logfile is not None:
+    elif input_logfile != '':
         with open(input_logfile, "r") as file:
             incident_desc = file.read().strip()
     else:

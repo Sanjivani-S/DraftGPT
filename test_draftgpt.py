@@ -71,10 +71,14 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
     # if found, append it to query.
     # if not found add only input_logfile to user input.
 
-    if user_input is None:
+    if user_input is None and len(input_logfile) <= 2:
+        user_input = incident_desc
+    elif user_input:
+        user_input = user_input
+    elif len(input_logfile) > 2:
         user_input = incident_desc
     else:
-        user_input = incident_desc
+        user_input = incident_desc + ' ' + user_input
 
     print("\n Total input for chatgpt - slack input + log file input == \n")     
     print("Number of tokens input:", len(user_input))

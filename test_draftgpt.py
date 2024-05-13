@@ -63,22 +63,24 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
             incident_desc = file.read().strip()
     else:
         with open("incident_descriptions/incident_description.txt", "r") as file:
-            incident_desc = file.read().strip()
+            incident_desc = file.read().strip('\n')
 
     print("\n contents of file read == \n")   
-    print(incident_desc)
 
     # check if user has provided input (user_input) from slack channel as well.
     # if found, append it to query.
     # if not found add only input_logfile to user input.
 
-    if user_input is None:
+    if user_input is None and len(input_logfile) <= 2:
+        user_input = incident_desc
+    elif user_input:
+        user_input = user_input
+    elif len(input_logfile) > 2:
         user_input = incident_desc
     else:
-        user_input = user_input + " " + incident_desc
+        user_input = incident_desc + ' ' + user_input
 
-    print("\n Total input for chatgpt - slack input + log file input == \n")     
-    print(user_input)
+    print("Number of tokens input:", len(user_input))
 
     url = "https://api.openai.com/v1/chat/completions"
 

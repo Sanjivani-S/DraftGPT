@@ -80,7 +80,6 @@ def draft_gpt(user_input, openai_api_key=os.environ["OPENAI_API_KEY"], gpt_model
     else:
         user_input = incident_desc + ' ' + user_input
 
-    print("\n Total input for chatgpt - slack input + log file input == \n")     
     print("Number of tokens input:", len(user_input))
 
     url = "https://api.openai.com/v1/chat/completions"

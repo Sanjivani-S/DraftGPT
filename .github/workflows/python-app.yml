@@ -64,7 +64,7 @@ jobs:
           DRAFTGPT_INPUT_LOGFILE: ${{github.event.inputs.input_file_path}}
         run: |
           pytest
-          python test_draftgpt.py
+          python src/DraftGPT/test_draftgpt.py
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3

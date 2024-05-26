@@ -22,3 +22,6 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/Sanjivani-S/DraftGPT"
 Issues = "https://github.com/Sanjivani-S/DraftGPT/issues"
+
+[project.dependencies]
+requests = "*"

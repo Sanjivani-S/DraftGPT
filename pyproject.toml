@@ -6,8 +6,8 @@ build-backend = "setuptools.build_meta"
 name = "DraftGPT"
 version = "0.0.1"
 authors = [
-  { name="insertname", email="insert@mail.com" },
-  { name="insertname", email="insert@mail.com" },
+  { name="Sanjivani Soman", email="sanjivani.somanbapat@gmail.com" },
+  { name="Niklas Rosencrantz", email="niklasro@gmail.com" },
   { name="Martin Evenbom", email="martin.evenbom@gmail.com" },
 ]
 description = "GPT that drafts a Root Cause Analysis (RCA) document with input from unstructured sources (e.g. Slack chat, document templates, and emails)."
